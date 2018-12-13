@@ -1,51 +1,127 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-
+import Typography from '@material-ui/core/Typography';
+import Foo from "./Foo";
 const styles = theme => ({
     root: {
-        flexGrow: 1,
+        width: '90%',
     },
-    paper: {
-        height: 240,
-        width: 600,
+    button: {
+        marginTop: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
     },
-    control: {
-        padding: theme.spacing.unit * 2,
+    actionsContainer: {
+        marginBottom: theme.spacing.unit * 2,
+    },
+    resetContainer: {
+        padding: theme.spacing.unit * 3,
     },
 });
 
-class GuttersGrid extends React.Component {
+function getSteps() {
+    return ['Send to websocket channel', 'Check websocket channel answer', 'Is it correct?'];
+}
+
+function getStepContent(step) {
+    switch (step) {
+        case 0:
+            return `First send a message to background python porcess which as subscribed to the channel
+                    sensor room group`;
+        case 1:
+            return (<Foo/>);
+        case 2:
+            return `Try out different ad text to see what brings in the most customers,
+              and learn how to enhance your ads using features like ad extensions.
+              If you run into any problems with your ads, find out how to tell if
+              they're running and how to resolve approval issues.`;
+        default:
+            return 'Unknown step';
+    }
+}
+
+class VerticalLinearStepper extends React.Component {
     state = {
-        spacing: '16',
+        activeStep: 0,
     };
 
+    handleNext = () => {
+        this.setState(state => ({
+            activeStep: state.activeStep + 1,
+        }));
+    };
 
+    handleBack = () => {
+        this.setState(state => ({
+            activeStep: state.activeStep - 1,
+        }));
+    };
+
+    handleReset = () => {
+        this.setState({
+            activeStep: 0,
+        });
+    };
 
     render() {
         const { classes } = this.props;
-        const { spacing } = this.state;
+        const steps = getSteps();
+        const { activeStep } = this.state;
 
         return (
-            <Grid container className={classes.root} spacing={16}>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-
+            <div className={classes.root}>
+                <Stepper activeStep={activeStep} orientation="vertical">
+                    {steps.map((label, index) => {
+                        return (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                                <StepContent>
+                                    <Typography>{getStepContent(index)}</Typography>
+                                    <div className={classes.actionsContainer}>
+                                        <div>
+                                            <Button
+                                                disabled={activeStep === 0}
+                                                onClick={this.handleBack}
+                                                className={classes.button}
+                                            >
+                                                Back
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.handleNext}
+                                                className={classes.button}
+                                            >
+                                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </StepContent>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+                {activeStep === steps.length && (
+                    <Paper square elevation={0} className={classes.resetContainer}>
+                        <Typography>All steps completed - you&apos;re finished</Typography>
+                        <Button onClick={this.handleReset} className={classes.button}>
+                            Reset
+                        </Button>
                     </Paper>
-                </Grid>
-            </Grid>
+                )}
+            </div>
         );
     }
 }
 
-GuttersGrid.propTypes = {
-    classes: PropTypes.object.isRequired,
+VerticalLinearStepper.propTypes = {
+    classes: PropTypes.object,
 };
 
-export default withStyles(styles)(GuttersGrid);
+export default withStyles(styles)(VerticalLinearStepper);

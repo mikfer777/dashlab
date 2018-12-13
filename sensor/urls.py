@@ -17,5 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('',views.sensor, name='sensor')
+    path('',views.sensor, name='sensor'),
+    path('bar',views.sensor, name='sensor'),
+    path('foo',views.sensor, name='sensor'),
+    path('demo',views.sensor, name='sensor'),
 ]
