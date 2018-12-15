@@ -22,6 +22,9 @@ class Command(BaseCommand):
             }
         )
 
+    def receive(self, text_data):
+        print ('received=' + text_data)
+
     # Receive message from room group
     def sensor_message(self, event):
         message = event['message']
@@ -47,6 +50,6 @@ class Command(BaseCommand):
         while True:
             self.send_sensor_message({'id' : str(x), 'type' : 'discovery'})
  #           Group("sensor").send({'text': "Sensor reading=" + str(x)})
-            time.sleep(1)
+            time.sleep(2)
             x = x + 1
             self.stdout.write("Sensor reading..." + str(x))

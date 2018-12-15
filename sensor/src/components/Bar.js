@@ -32,7 +32,7 @@ function getSteps() {
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return `First send a message to background python porcess which as subscribed to the channel
+            return `First send a message to background python process which as subscribed to the channel
                     sensor room group`;
         case 1:
             return (<Foo/>);

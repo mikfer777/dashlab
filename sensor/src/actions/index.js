@@ -10,3 +10,7 @@ export const addMailcounter = value => ({
   type: "ADD_MAIL",
   payload: value
 });
+export const sensorSocket = value => ({
+    type: "SOCKET_SEND_MESSAGE",
+    payload: value
+});

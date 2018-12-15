@@ -2,11 +2,12 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
 
+
 class SensorConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = 'room'
         self.room_group_name = 'sensor_%s' % self.room_name
-
+        print ('channel_name=' + self.channel_name)
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
@@ -24,10 +25,18 @@ class SensorConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         print ('received=' + text_data)
-        # text_data_json = json.loads(text_data)
+        message = json.loads(text_data)
         # message = text_data_json['message']
+        # Send message to room group
+        async_to_sync(self.channel_layer.send)(
+            'test_worker',
+            {
+                'type': 'sensor_message',
+                'message': message
+            }
+        )
 
-        self.send_sensor_message('ping')
+
 
     def send_sensor_message(self, message):
         # Send message to room group

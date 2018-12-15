@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";;
 import notifCounter from "./notifCounter";
 import mailCounter from "./mailCounter";
-import socket from './socket';
-export default combineReducers({socket,notifcounters:notifCounter,mailcounters:mailCounter});
+import sensorSocket from './socket';
+export default combineReducers({sensorSocket,notifcounters:notifCounter,mailcounters:mailCounter});
