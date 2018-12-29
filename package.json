@@ -21,7 +21,9 @@
     "url": "https://github.com/dashlab1/issues"
   },
   "homepage": "https://github.com/dashlab1#readme",
-  "dependencies": {},
+  "dependencies": {
+    "react-trello": "^2.0.7"
+  },
   "devDependencies": {
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",

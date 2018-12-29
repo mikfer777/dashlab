@@ -154,7 +154,7 @@ class ConnectedLayout2 extends React.Component {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" color="inherit" noWrap>
-                            Persistent drawer
+                            MikHome Dashboard lab
                         </Typography>
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">
@@ -202,6 +202,12 @@ class ConnectedLayout2 extends React.Component {
                                 <ListItemText classes={{primary: classes.primary}} inset primary="Labo"/>
                             </MenuItem>
                             <MenuItem className={classes.menuItem} component={Link} to="/sensor/demo" selected={'/sensor/demo' === pathname}>
+                                <ListItemIcon className={classes.icon}>
+                                    <InboxIcon/>
+                                </ListItemIcon>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="Inbox"/>
+                            </MenuItem>
+                            <MenuItem className={classes.menuItem} component={Link} to="/sensor/trello" selected={'/sensor/trello' === pathname}>
                                 <ListItemIcon className={classes.icon}>
                                     <InboxIcon/>
                                 </ListItemIcon>

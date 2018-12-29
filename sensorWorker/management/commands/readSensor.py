@@ -6,9 +6,6 @@ import json
 
 
 
-
-
-
 # The class must be named Command, and subclass BaseCommand
 class Command(BaseCommand):
 
@@ -22,27 +19,10 @@ class Command(BaseCommand):
             }
         )
 
-    def receive(self, text_data):
-        print ('received=' + text_data)
-
-    # Receive message from room group
-    def sensor_message(self, event):
-        message = event['message']
-        # Send message to WebSocket
-        self.send(text_data=json.dumps(message))
-
 
     channel_layer = get_channel_layer()
     # Show this when the user types help
     help = "Simulates reading sensor and sending over Channel."
-    # room_name = 'room'
-    # room_group_name = 'sensor_%s' % room_name
-    #
-    # # Join room group
-    # async_to_sync(channel_layer.group_add)(
-    #     room_group_name,
-    #     channel_name
-    # )
 
     # A command must define handle()
     def handle(self, *args, **options):

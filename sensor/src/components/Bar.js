@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Foo from "./Foo";
+
 const styles = theme => ({
     root: {
         width: '90%',
@@ -26,14 +27,13 @@ const styles = theme => ({
 });
 
 function getSteps() {
-    return ['Send to websocket channel', 'Check websocket channel answer', 'Is it correct?'];
+    return ['try this tuto', 'Check websocket channel answer', 'Is it correct?'];
 }
 
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return `First send a message to background python process which as subscribed to the channel
-                    sensor room group`;
+            return (<a target="_blank" href="https://www.valentinog.com/blog/tutorial-api-django-rest-react/">tutorial-api-django-rest-react</a>);
         case 1:
             return (<Foo/>);
         case 2:
