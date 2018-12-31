@@ -8,6 +8,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
 import Foo from "./Foo";
 
 const styles = theme => ({
@@ -33,14 +34,13 @@ function getSteps() {
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return (<a target="_blank" href="https://www.valentinog.com/blog/tutorial-api-django-rest-react/">tutorial-api-django-rest-react</a>);
+            return (<div><a target="_blank" href="https://www.valentinog.com/blog/tutorial-api-django-rest-react/">tutorial-api-django-rest-react</a><br/>
+                <a target="_blank" href="https://maurice-chavelli.developpez.com/tutoriels/nouveautes-es6/variables-et-fonctions/?page=es6-les-fonctions#LIII-C">es6-les-fonctions</a>
+        </div>);
         case 1:
             return (<Foo/>);
         case 2:
-            return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
+            return  (<Foo/>);
         default:
             return 'Unknown step';
     }

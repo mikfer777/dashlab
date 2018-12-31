@@ -18,7 +18,8 @@ from django.urls import path
 from . import views
 urlpatterns = [
     path('',views.sensor, name='sensor'),
-    path('bar',views.sensor, name='sensor'),
-    path('foo',views.sensor, name='sensor'),
-    path('demo',views.sensor, name='sensor'),
+    path('sensor/bar',views.sensor, name='sensor'),
+    path('sensor/foo',views.sensor, name='sensor'),
+    path('sensor/demo',views.sensor, name='sensor'),
+    path('api/sensor/', views.SensorListCreate.as_view() ),
 ]

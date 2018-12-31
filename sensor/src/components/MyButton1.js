@@ -5,6 +5,10 @@ import uuidv1 from "uuid";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import {addNotifcounter,sensorSocket} from "../actions/index";
+import DataProvider from './DataProvider';
+
+import Table2 from './Table2';
+
 
 
 const mapDispatchToProps = dispatch => {
@@ -69,6 +73,9 @@ class MyButton1 extends Component {
                     </Button>
 
                 </form>
+                <DataProvider endpoint="/api/sensor/"
+                              render={data => <Table2 data={data} />} />
+
             </div>
         );
     }
