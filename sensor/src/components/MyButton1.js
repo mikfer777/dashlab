@@ -8,7 +8,7 @@ import {addNotifcounter,sensorSocket} from "../actions/index";
 import DataProvider from './DataProvider';
 
 import Table2 from './Table2';
-
+import Table3 from './Table3';
 
 
 const mapDispatchToProps = dispatch => {
@@ -73,8 +73,9 @@ class MyButton1 extends Component {
                     </Button>
 
                 </form>
-                <DataProvider endpoint="/api/sensor/"
-                              render={data => <Table2 data={data} />} />
+                {/*<DataProvider endpoint="/api/sensor/"*/}
+                              {/*render={data => <Table2 data={data} />} />*/}
+                              <Table3/>
 
             </div>
         );

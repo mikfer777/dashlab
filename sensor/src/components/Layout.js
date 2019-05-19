@@ -205,7 +205,13 @@ class ConnectedLayout2 extends React.Component {
                                 <ListItemIcon className={classes.icon}>
                                     <InboxIcon/>
                                 </ListItemIcon>
-                                <ListItemText classes={{primary: classes.primary}} inset primary="Inbox"/>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="Sensor Demo"/>
+                            </MenuItem>
+                            <MenuItem className={classes.menuItem} component={Link} to="/sensor/xbeedrive" selected={'/sensor/xbeedrive' === pathname}>
+                                <ListItemIcon className={classes.icon}>
+                                    <InboxIcon/>
+                                </ListItemIcon>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="xBee prog"/>
                             </MenuItem>
                             <MenuItem className={classes.menuItem} component={Link} to="/sensor/trello" selected={'/sensor/trello' === pathname}>
                                 <ListItemIcon className={classes.icon}>

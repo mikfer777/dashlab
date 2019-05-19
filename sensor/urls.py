@@ -21,5 +21,6 @@ urlpatterns = [
     path('sensor/bar',views.sensor, name='sensor'),
     path('sensor/foo',views.sensor, name='sensor'),
     path('sensor/demo',views.sensor, name='sensor'),
+    path('sensor/xbeedrive',views.sensor, name='sensor'),
     path('api/sensor/', views.SensorListCreate.as_view() ),
 ]

@@ -1,7 +1,7 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
-
+from.models import Sensor
 
 class SensorConsumer(WebsocketConsumer):
     def connect(self):
@@ -51,6 +51,15 @@ class SensorConsumer(WebsocketConsumer):
     # Receive message from room group
     def sensor_message(self, event):
         message = event['message']
+        # traiter le message venant du xbee ici...
+        # ajouter un Sensor
+        # gerer les sequences
+        # https://stackoverflow.com/questions/44444385/postgres-sequences-as-default-value-for-django-model-field
+
+        # s = Sensor(id=
+        # s.save()
+
+        # rediriger sur websocket (notification connexion d'un xbee...par exemple
         # Send message to WebSocket
         print('send=' + json.dumps(message))
         self.send(text_data=json.dumps(message))
