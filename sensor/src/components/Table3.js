@@ -6,31 +6,27 @@ import MaterialTable from "material-table";
 import MyButton1Form from "./MyButton1";
 
 class Editable extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            columns: [
-                { title: 'Name', field: 'name' },
-                { title: 'Surname', field: 'surname' },
-                { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-                {
-                    title: 'Birth Place',
-                    field: 'birthCity',
-                    lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-                },
-            ],
-            data: [
-                { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-                { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-            ]
-        }
-    }
+    state = {
+        order: 'asc',
+        orderBy: 'calories',
+        selected: [],
+        data: [],
+        page: 0,
+        rowsPerPage: 5,
+    };
+
+
 
     render() {
+        this.state.data = this.props.data;
         return (
             <MaterialTable
-                title="Editable Preview"
-                columns={this.state.columns}
+                title="Simple Action Preview"
+                columns={[
+                    {field: 'name', title: 'Name of'},
+                    {field: 'email', title: 'Email'},
+                    {field: 'message', title: 'Message delivered'},
+                ]}
                 data={this.state.data}
                 editable={{
                     onRowAdd: newData =>
@@ -42,7 +38,7 @@ class Editable extends React.Component {
                                     this.setState({ data }, () => resolve());
                                 }
                                 resolve()
-                            }, 1000)
+                            }, 100)
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
@@ -54,7 +50,7 @@ class Editable extends React.Component {
                                     this.setState({ data }, () => resolve());
                                 }
                                 resolve()
-                            }, 1000)
+                            }, 100)
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {
@@ -66,7 +62,7 @@ class Editable extends React.Component {
                                     this.setState({ data }, () => resolve());
                                 }
                                 resolve()
-                            }, 1000)
+                            }, 100)
                         }),
                 }}
             />
@@ -74,5 +70,8 @@ class Editable extends React.Component {
     }
 }
 
-
+Editable.propTypes = {
+    classes: PropTypes.object.isRequired,
+    data: PropTypes.array.isRequired,
+};
 export default Editable;

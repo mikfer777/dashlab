@@ -53,6 +53,9 @@ function getStepContent(step) {
                     hot reload<br/></a>
                 <a target="_blank"
                    href="https://material-ui.com/getting-started/installation/">material ui components</a><br/>
+                <a target="_blank"
+                   href="https://material-table.com/#/docs/get-started">material-table component</a><br/>
+
             </div>);
         case 1:
             return (

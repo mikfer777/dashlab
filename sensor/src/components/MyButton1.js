@@ -73,9 +73,9 @@ class MyButton1 extends Component {
                     </Button>
 
                 </form>
-                {/*<DataProvider endpoint="/api/sensor/"*/}
-                              {/*render={data => <Table2 data={data} />} />*/}
-                              <Table3/>
+                <DataProvider endpoint="/api/sensor/"
+                              render={data => <Table3 data={data} />} />
+
 
             </div>
         );
