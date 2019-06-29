@@ -26,7 +26,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import {connect} from "react-redux";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-const drawerWidth = 240;
+const drawerWidth = 400;
 
 const styles = theme => ({
     root: {
@@ -108,10 +108,18 @@ class ConnectedLayout2 extends React.Component {
 
     handleDrawerOpen = () => {
         this.setState({open: true});
+
     };
 
     handleDrawerClose = () => {
         this.setState({open: false});
+    };
+
+    handleBadge = () => {
+        console.log("handleBadge");
+        <Link component={Link} to="/sensor/foo">
+            Simple case
+        </Link>
     };
 
     render() {
@@ -158,12 +166,13 @@ class ConnectedLayout2 extends React.Component {
                         </Typography>
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">
-                                <Badge className={classes.margin} badgeContent={mailcount} color="secondary">
+                                <Badge className={classes.margin} badgeContent={mailcount} color="secondary" component={Link} to="/sensor/foo">
                                     <MailIcon/>
                                 </Badge>
                             </IconButton>
                             <IconButton color="inherit">
-                                <Badge className={classes.margin} badgeContent={notifcount} color="secondary">
+                                <Badge className={classes.margin} badgeContent={notifcount} color="secondary" component={Link} to="/sensor/demo"
+                                    onClick={this.handleBadge}>
                                     <NotificationsIcon/>
                                 </Badge>
                             </IconButton>
@@ -193,7 +202,7 @@ class ConnectedLayout2 extends React.Component {
                                 <ListItemIcon className={classes.icon}>
                                     <SendIcon/>
                                 </ListItemIcon>
-                                <ListItemText classes={{primary: classes.primary}} inset primary="HomeServer Status"/>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="Doc en ligne et exemple de train"/>
                             </MenuItem>
                             <MenuItem className={classes.menuItem} component={Link} to="/sensor/foo" selected={'/sensor/foo' === pathname}>
                                 <ListItemIcon className={classes.icon}>
@@ -205,13 +214,13 @@ class ConnectedLayout2 extends React.Component {
                                 <ListItemIcon className={classes.icon}>
                                     <InboxIcon/>
                                 </ListItemIcon>
-                                <ListItemText classes={{primary: classes.primary}} inset primary="Sensor Demo"/>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="Gestion de Table Material-table component"/>
                             </MenuItem>
                             <MenuItem className={classes.menuItem} component={Link} to="/sensor/xbeedrive" selected={'/sensor/xbeedrive' === pathname}>
                                 <ListItemIcon className={classes.icon}>
                                     <InboxIcon/>
                                 </ListItemIcon>
-                                <ListItemText classes={{primary: classes.primary}} inset primary="xBee prog"/>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="Communication module Xbee Arduino"/>
                             </MenuItem>
                             <MenuItem className={classes.menuItem} component={Link} to="/sensor/trello" selected={'/sensor/trello' === pathname}>
                                 <ListItemIcon className={classes.icon}>

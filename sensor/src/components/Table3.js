@@ -16,7 +16,6 @@ class Editable extends React.Component {
     };
 
 
-
     render() {
         this.state.data = this.props.data;
         return (
@@ -34,8 +33,20 @@ class Editable extends React.Component {
                             setTimeout(() => {
                                 {
                                     const data = this.state.data;
+                                    console.log(newData)
+                                    /*                                    const my_session_id = 'mph3eugf0gh5hyzc8glvrt79r2sd6xu6'
+                                                                        const cookies = {}
+                                                                        cookies['sessionid'] = my_session_id*/
+                                    const conf = {
+                                        method: "post",
+                                        body: JSON.stringify(newData),
+                                        // cookies: cookies,
+                                        headers: new Headers({"Content-Type": "application/json"}),
+
+                                    };
+                                    fetch("/api/sensors/", conf).then(response => console.log(response));
                                     data.push(newData);
-                                    this.setState({ data }, () => resolve());
+                                    this.setState({data}, () => resolve());
                                 }
                                 resolve()
                             }, 100)
@@ -47,7 +58,15 @@ class Editable extends React.Component {
                                     const data = this.state.data;
                                     const index = data.indexOf(oldData);
                                     data[index] = newData;
-                                    this.setState({ data }, () => resolve());
+                                    var url = '/api/sensors/'
+                                    url += oldData.id += '/'
+                                    const conf = {
+                                        method: "put",
+                                        body: JSON.stringify(newData),
+                                        headers: new Headers({"Content-Type": "application/json"})
+                                    };
+                                    fetch(url, conf).then(response => console.log(response));
+                                    this.setState({data}, () => resolve());
                                 }
                                 resolve()
                             }, 100)
@@ -58,8 +77,17 @@ class Editable extends React.Component {
                                 {
                                     let data = this.state.data;
                                     const index = data.indexOf(oldData);
+                                    console.log(oldData)
+                                    var url = '/api/sensors/'
+                                    url += oldData.id += '/'
+                                    const conf = {
+                                        method: "delete",
+                                        // body: JSON.stringify(oldData),
+                                        headers: new Headers({"Content-Type": "application/json"})
+                                    };
+                                    fetch(url, conf).then(response => console.log(response));
                                     data.splice(index, 1);
-                                    this.setState({ data }, () => resolve());
+                                    this.setState({data}, () => resolve());
                                 }
                                 resolve()
                             }, 100)

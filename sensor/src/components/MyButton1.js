@@ -54,7 +54,7 @@ class MyButton1 extends Component {
     handleSubmit2(event) {
         console.log("handleSubmit2 send websocket message =" + event.data);
         event.preventDefault();
-        this.props.sensorSocket(JSON.stringify({ name: "bob", age: 34, created: new Date() }));
+        this.props.sensorSocket(JSON.stringify({ type:"start", name: "bob", age: 34, created: new Date() }));
 
     }
 
@@ -73,7 +73,7 @@ class MyButton1 extends Component {
                     </Button>
 
                 </form>
-                <DataProvider endpoint="/api/sensor/"
+                <DataProvider endpoint="/api/sensors/"
                               render={data => <Table3 data={data} />} />
 
 

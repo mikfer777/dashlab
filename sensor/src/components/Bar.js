@@ -47,6 +47,12 @@ function getStepContent(step) {
             return (<div><a target="_blank"
                             href="https://www.valentinog.com/blog/tutorial-api-django-rest-react/">tutorial-api-django-rest-react</a><br/>
                 <a target="_blank"
+                href="https://medium.com/the-andela-way/creating-a-django-api-using-django-rest-framework-apiview-b365dca53c1d">another tutorial-api-django-rest-react</a><br/>
+                <a target="_blank"
+                   href="https://makina-corpus.com/blog/metier/2015/django-rest-framework-les-viewset-partie-2">Serializers ViewSet</a><br/>
+
+
+                <a target="_blank"
                    href="https://maurice-chavelli.developpez.com/tutoriels/nouveautes-es6/variables-et-fonctions/?page=es6-les-fonctions#LIII-C">es6-les-fonctions</a><br/>
                 <a> redis server<br/>
                     react + redux<br/>
