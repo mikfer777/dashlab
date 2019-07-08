@@ -166,7 +166,7 @@ class ConnectedLayout2 extends React.Component {
                         </Typography>
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">
-                                <Badge className={classes.margin} badgeContent={mailcount} color="secondary" component={Link} to="/sensor/foo">
+                                <Badge className={classes.margin} badgeContent={mailcount} max={9999} color="secondary" component={Link} to="/sensor/foo">
                                     <MailIcon/>
                                 </Badge>
                             </IconButton>

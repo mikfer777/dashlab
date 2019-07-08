@@ -15,6 +15,11 @@ class Editable extends React.Component {
         rowsPerPage: 5,
     };
 
+    "xbeeid": 1,
+    "vbatt": "4.89199",
+    "ptrans": 10,
+    "pcheck": 60,
+    "created_at": "2019-06-30T17:13:49.732417Z"
 
     render() {
         this.state.data = this.props.data;

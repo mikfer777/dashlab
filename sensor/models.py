@@ -20,3 +20,22 @@ class Review(models.Model):
     review = models.TextField()
     rating = models.IntegerField()
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+
+
+class XbeeModule(models.Model):
+    external_id = models.CharField(max_length=10)
+    name = models.CharField(max_length=100)
+    atsh = models.CharField(max_length=10)
+    atsl = models.CharField(max_length=10)
+    fw = models.CharField(max_length=10)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+class XbeeData(models.Model):
+    xbeeid = models.ForeignKey(XbeeModule, on_delete=models.CASCADE)
+    vbatt = models.DecimalField(decimal_places=5, max_digits=20)
+    ptrans = models.IntegerField()
+    pcheck = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)

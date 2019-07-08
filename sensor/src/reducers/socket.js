@@ -82,8 +82,11 @@ export function initializeSocket() {
         socket.onmessage = function (event) {
 
             var obj = JSON.parse(event.data);
-            console.log("socket.onmessage=" + obj.id);
-            dispatch(socketMessage(event.data));
+            console.log("socket.onmessage2=" + obj.id);
+            console.log("event.data=" + event.data);
+            // dispatch(socketMessage(event.data));
+            // check type of data and call REST api to store
+            storeXbeeData(obj);
             var counterNotif = parseInt(obj.id, 10)
             const id = uuidv1();
             const type = 'mail';
@@ -94,6 +97,22 @@ export function initializeSocket() {
             dispatch(socketConnectionClosed());
         };
     };
+}
+
+function storeXbeeData(xbeedata) {
+    setTimeout(() => {
+        {
+            console.log("xbeedata=" + JSON.stringify({ xbeeid: xbeedata.xbeeid , vbatt: xbeedata.vbatt, ptrans: xbeedata.ptrans, pcheck: xbeedata.pcheck}));
+            var url = '/api/xbeemodules/'
+            url += xbeedata.xbeeid + '/xbeedata/'
+            const conf = {
+                method: "post",
+                body: JSON.stringify({ xbeeid: xbeedata.xbeeid , vbatt: xbeedata.vbatt, ptrans: xbeedata.ptrans, pcheck: xbeedata.pcheck, created_at: new Date()}),
+                headers: new Headers({"Content-Type": "application/json"})
+            };
+            fetch(url, conf).then(response => console.log(response));
+        }
+    }, 100)
 }
 
 function socketConnectionInit(socket) {

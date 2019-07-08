@@ -31,4 +31,8 @@ urlpatterns = [
     path('api/products/<product_id>/reviews/', views.ReviewList.as_view(), name='review-list'),
     path('api/products/<product_id>/reviews/<review_id>/', views.ReviewDetail.as_view(), name='product-detail'),
     path('api/sensors/rest-auth/', include('rest_auth.urls')),
+    path('api/xbeemodules/', views.XbeeSensorListCreate.as_view(), name='xbeemodules-list'),
+    path('api/xbeemodules/<xbee_id>/', views.XbeeSensorDetail.as_view(), name='xbeemodules-details'),
+    path('api/xbeemodules/<xbee_id>/xbeedata/', views.XbeeDataSensorListCreate.as_view(), name='xbeedata-list'),
+    path('api//xbeemodules/<xbee_id>/xbeedata/<xbeedata_id>/', views.XbeeDataSensorDetail.as_view(), name='xbeedata-details'),
 ]

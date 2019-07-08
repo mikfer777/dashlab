@@ -4,3 +4,6 @@ channels==2.0
 channels_redis==2.2.1
 djangorestframework==3.8.2
 serial==0.0.97
+django_webpack_loader==0.5.0
+django-rest-auth
+psycopg2

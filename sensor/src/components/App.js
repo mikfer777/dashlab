@@ -11,22 +11,22 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 
 const theme = createMuiTheme({
+
     palette: {
-        palette: {
-            primary: {
-                light: '#22e8e5',
-                main: '#b57520',
-                dark: '#847870',
-                contrastText: '#ffc2a3',
-            },
-            secondary: {
-                light: '#ff7961',
-                main: '#f44336',
-                dark: '#ba000d',
-                contrastText: '#000',
-            },
+        primary: {
+            light: '#4ce853',
+            main: '#847056',
+            dark: '#e8791d',
+            contrastText: '#fff6f8',
+        },
+        secondary: {
+            light: '#ff7961',
+            main: '#f4e723',
+            dark: '#58baa4',
+            contrastText: '#000',
         },
     },
+
     typography: {
         // Use the system font instead of the default Roboto font.
         fontFamily: [

@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        STATIC_URL: '/static/'
+    command: python /app/manage.py runserver 0.0.0.0:8000
+    container_name: dashlab-web
+    restart: unless-stopped
+    networks:
+      - dashlab-backend-tier
+    ports:
+      - 8000:8000
+#    volumes:
+##      - .:/app:Z
+###    env_file: common.env
+    depends_on:
+      - db
+      - redis
+
+
+  db:
+    image: library/postgres:latest
+    container_name: dashlab-postgres
+    restart: unless-stopped
+    networks:
+      - dashlab-backend-tier
+    volumes:
+      - dashlab-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=dashlab
+      - POSTGRES_PASSWORD=dashlab
+
+  redis:
+    image: library/redis:latest
+    container_name: dashlab-redis
+    restart: unless-stopped
+    networks:
+      - dashlab-backend-tier
+    volumes:
+      - dashlab-redis:/data
+    ports:
+      - '127.0.0.1:6379:6379'
+
+volumes:
+  dashlab-db:
+    driver: local
+  dashlab-redis:
+    driver: local
+  dashlab-search:
+    driver: local
+
+networks:
+  dashlab-backend-tier:
+    driver: bridge

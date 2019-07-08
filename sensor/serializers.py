@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from sensor.models import Sensor, Product, Review
+from sensor.models import Sensor, Product, Review, XbeeModule, XbeeData
 
 
 class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sensor
-        fields = ('id', 'name', 'email', 'message')
+        fields = ('id', 'name', 'email', 'message','created_at')
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -22,3 +22,15 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'name', 'description', 'price', 'reviews')
+
+
+class XbeeSensorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = XbeeModule
+        fields = ('external_id', 'name', 'atsh', 'atsl', 'fw', 'description','created_at')
+
+
+class XbeeDataSensorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = XbeeData
+        fields = ('xbeeid', 'vbatt', 'ptrans', 'pcheck','created_at')
