@@ -15,11 +15,11 @@ class Editable extends React.Component {
         rowsPerPage: 5,
     };
 
-    "xbeeid": 1,
-    "vbatt": "4.89199",
-    "ptrans": 10,
-    "pcheck": 60,
-    "created_at": "2019-06-30T17:13:49.732417Z"
+    // "xbeeid": 1,
+    // "vbatt": "4.89199",
+    // "ptrans": 10,
+    // "pcheck": 60,
+    // "created_at": "2019-06-30T17:13:49.732417Z"
 
     render() {
         this.state.data = this.props.data;
@@ -27,9 +27,11 @@ class Editable extends React.Component {
             <MaterialTable
                 title="Simple Action Preview"
                 columns={[
-                    {field: 'name', title: 'Name of'},
-                    {field: 'email', title: 'Email'},
-                    {field: 'message', title: 'Message delivered'},
+                    {field: 'xbeeid', title: 'Xbee Id'},
+                    {field: 'vbatt', title: 'Tension Batt'},
+                    {field: 'ptrans', title: 'periode Trans'},
+                    {field: 'pcheck', title: 'periode Check'},
+                    {field: 'pcheck', title: 'periode Check'},
                 ]}
                 data={this.state.data}
                 editable={{
