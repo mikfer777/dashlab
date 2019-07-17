@@ -29,7 +29,7 @@ class SensorConsumer(WebsocketConsumer):
         # message = text_data_json['message']
         # Send message to room group
         async_to_sync(self.channel_layer.send)(
-            'test_worker',
+            'sensor_worker',
             {
                 'type': 'sensor_message',
                 'message': message

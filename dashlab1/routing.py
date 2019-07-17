@@ -1,7 +1,7 @@
 from channels.routing import ProtocolTypeRouter, URLRouter, ChannelNameRouter
 from channels.auth import AuthMiddlewareStack
 import sensor.routing
-from sensorWorker import testWorker
+from sensorWorker import testWorker, sensorWorkerd
 
 application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
@@ -10,8 +10,7 @@ application = ProtocolTypeRouter({
         ),
     ),
     'channel': ChannelNameRouter({
-        "test_worker": testWorker.TestWorker,
-        "test_worker2": testWorker.TestWorker2,
+        "sensor_worker": sensorWorkerd.SensorWorkerD,
     })
 
 })

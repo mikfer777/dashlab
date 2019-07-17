@@ -31,6 +31,6 @@ class Command(BaseCommand):
             self.send_sensor_message({'id' : str(x), 'type' : 'discovery'})
 
  #           Group("sensor").send({'text': "Sensor reading=" + str(x)})
-            time.sleep(0.1)
+            time.sleep(1)
             x = x + 1
             self.stdout.write("Sensor reading..." + str(x))

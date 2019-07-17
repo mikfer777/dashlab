@@ -2,7 +2,9 @@ import json
 import multiprocessing
 import sys
 import time
+from multiprocessing import Queue
 
+import redis
 import serial
 from asgiref.sync import async_to_sync
 from channels.consumer import SyncConsumer
@@ -13,6 +15,30 @@ structSz = 24  # size of structure without payload
 pSz = 2  # size position
 pSS = 3  # position structure start
 posCSmax = pSS + jsonBSz + structSz
+q = Queue()  # inter comm process worker and TestWorker
+
+
+def pub(i):
+    myredis = redis.StrictRedis(host='192.168.99.100', port=6379)
+    for n in range(10):
+        myredis.publish('channel', 'blah %d' % n)
+        print('publish: %s' % n)
+        # time.sleep(5)
+
+
+def sub(i, name):
+    myredis = redis.StrictRedis(host='192.168.99.100', port=6379)
+    print('sub:', name)
+    channel_layer = get_channel_layer()
+    pubsub = myredis.pubsub()
+    pubsub.subscribe(['channel'])
+    for item in pubsub.listen():
+        print('%s : %s' % (name, item['data']))
+        print(type(item['data']))
+        if type(item['data']) is bytes:
+            s = item['data'].decode("utf-8")
+            print('send message: %s' % s)
+            send_sensor_message(channel_layer,{'name': name, 'data': s})
 
 
 def computeChecksum(data):
@@ -67,7 +93,7 @@ def extractStruct(data):
 
 
 # {"prog":{"ptrans":30, "pchk":600}}
-def buildProgOrder():
+def buildProgOrder(trans, check):
     msg = [0] * (posCSmax + 1)
     print("size msg= " + str(len(msg)))
     msg[0] = 0x06
@@ -76,20 +102,10 @@ def buildProgOrder():
     url = "scratch"
     for i in range(len(url)):
         msg[pSS + i] = ord(url[i])
-    # hostnameTarget = 1
-    # msg[pSS + 15:pSS + 16] = hostnameTarget.to_bytes(2, 'little')
-    # messageId = 999
-    # msg[pSS + 17:pSS + 18] = messageId.to_bytes(2, 'big')
-    # msg[pSS + 19] = 0x00
-    # xbeeid = 1
-    # msg[pSS + 20:pSS + 21] = xbeeid.to_bytes(2, 'big')
-    # xbeeNetworkId = 1
-    # msg[pSS + 22:pSS + 23] = xbeeNetworkId.to_bytes(2, 'big')
     payload = json.dumps({
         "prog": {
-            "ptrans": 20,
-            "pchk": 600,
-            "narco": 800000.25}})
+            "ptrans": trans,
+            "pchk": check}})
     for i in range(len(payload)):
         msg[pSS + 24 + i] = ord(payload[i])
 
@@ -107,7 +123,19 @@ def send_sensor_message(channel_layer, message):
     )
 
 
-def worker(num):
+def send_arduino_message(arduino, message):
+    tp = int(message['trans_period'])
+    cp = int(message['check_period'])
+    msg = buildProgOrder(tp, cp)
+    cs = computeChecksum(msg)
+    msg[msg[pSz] + 3] = cs
+    obj = json.loads(extractStruct(msg))
+    print(json.dumps(obj, indent=4))
+    arduino.write(msg)
+    arduino.flush()
+
+
+def worker(num, q):
     """thread worker function"""
     print('Worker:', num)
     print(sys.version)  # check python version
@@ -117,15 +145,26 @@ def worker(num):
     arduino = serial.Serial('COM5', 57600, timeout=2)
     time.sleep(1)  # give the connection a second to settle
     while True:
+        if not q.empty():
+            message = q.get()
+            print(message)
+            if message['type'] == 'xbeeprog':
+                send_arduino_message(arduino, message)
         data = arduino.read(1000)
         if data:
-            print (data)
+            print(data)
+
             if checkDataIntegrity(data):
                 print("good message")
                 obj = json.loads(extractStruct(data))
-                x = obj['payload']['vbatt']
-                y = obj['messageId']
-                send_sensor_message(channel_layer, {'id': str(y), 'type': 'discovery'})
+                xid = obj['payload']['xbeeid']
+                vbatt = obj['payload']['vbatt']
+                ptrans = obj['payload']['period_trans']
+                pcheck = obj['payload']['period_check']
+                mid = obj['messageId']
+                send_sensor_message(channel_layer,
+                                    {'id': str(mid), 'xbeeid': str(1), 'type': 'discovery', 'vbatt': vbatt,
+                                     'ptrans': ptrans, 'pcheck': pcheck})
 
 
 class TestWorker(SyncConsumer):
@@ -133,11 +172,17 @@ class TestWorker(SyncConsumer):
     def __init__(self, scope):
         super().__init__(scope)
         print("init")
+        myredis = redis.StrictRedis(host='192.168.99.100', port=6379)
         jobs = []
-        for i in range(1):
-            p = multiprocessing.Process(target=worker, args=(i,))
+        for i in range(2):
+            p = multiprocessing.Process(target=sub, args=(i, 'reader' + str(i)))
             jobs.append(p)
             p.start()
+
+        # for i in range(1):
+        #     p = multiprocessing.Process(target=worker, args=(i, q))
+        #     jobs.append(p)
+        #     p.start()
 
     def triggerWorker(self, message):
         print(self.channel_name)
@@ -152,18 +197,5 @@ class TestWorker(SyncConsumer):
     # handler definition by type of message
     def sensor_message(self, message):
         print("Message to worker sensor_message ", message)
+        q.put(message['message'])
         # self.triggerWorker(message)
-
-
-class TestWorker2(SyncConsumer):
-    def triggerWorker(self, message):
-        async_to_sync(self.channel_layer.group_add)("testGroup", self.channel_name)
-        async_to_sync(self.channel_layer.group_send)(
-            "testGroup",
-            {
-                'type': "echo_msg",
-                'msg': "sent from worker",
-            })
-
-    def echo_msg(self, message):
-        print("Message to worker ", message)
