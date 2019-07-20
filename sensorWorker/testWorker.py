@@ -38,7 +38,7 @@ def sub(i, name):
         if type(item['data']) is bytes:
             s = item['data'].decode("utf-8")
             print('send message: %s' % s)
-            send_sensor_message(channel_layer,{'name': name, 'data': s})
+            send_sensor_message(channel_layer, {'name': name, 'data': s})
 
 
 def computeChecksum(data):
@@ -114,7 +114,7 @@ def buildProgOrder(trans, check):
 
 def send_sensor_message(channel_layer, message):
     # Send message to room group
-    async_to_sync(channel_layer.group_send)(
+    channel_layer.group_send(
         'sensor_room',
         {
             'type': 'sensor_message',
