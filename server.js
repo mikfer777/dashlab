@@ -7,10 +7,10 @@ new WebpackDevServer(webpack(config), {
     hot: true,
     inline: true,
     historyApiFallback: true
-}).listen(3000, '192.168.99.100', function (err, result) {
+}).listen(3000, '192.168.1.70', function (err, result) {
     if (err) {
         console.log(err)
     }
 
-    console.log('Listening at 192.168.99.100:3000')
+    console.log('Listening at 192.168.1.70:3000')
 })

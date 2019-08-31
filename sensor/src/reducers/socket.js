@@ -1,5 +1,5 @@
 import ReconnectingWebSocket from 'reconnectingwebsocket';
-import {addNotifcounter, addMailcounter} from "../actions/index";
+import {addNotifcounterCam, addMailcounter} from "../actions/index";
 import uuidv1 from "uuid";
 
 
@@ -81,16 +81,27 @@ export function initializeSocket() {
 
         socket.onmessage = function (event) {
 
-            var obj = JSON.parse(event.data);
-            console.log("socket.onmessage2=" + obj.id);
+            var jsonobj = JSON.parse(event.data);
+            console.log("jsonobj=" + jsonobj['sensor']['type']);
             console.log("event.data=" + event.data);
+            if (jsonobj['sensor']['type'] == 'data') {
+                console.log("in data");
+                var counterNotif = 1;
+                var id = jsonobj['sensor']['pkid'];
+                var uuid = jsonobj['sensor']['uuid'];
+                var type = 'cam';
+                dispatch(addNotifcounterCam({counterNotif, type, id, uuid}));
+            } else if (jsonobj['sensor']['type'] == 'init') {
+                console.log("in init");
+                // storeOrUpdateSensorModule(jsonobj['sensor']);
+            }
             // dispatch(socketMessage(event.data));
             // check type of data and call REST api to store
-            storeXbeeData(obj);
-            var counterNotif = parseInt(obj.id, 10)
-            const id = uuidv1();
-            const type = 'mail';
-            dispatch(addMailcounter({counterNotif, type, id}));
+            //storeXbeeData(jsonobj);
+            // var counterNotif = parseInt(jsonobj.id, 10)
+            // const id = uuidv1();
+            // const type = 'mail';
+            // dispatch(addMailcounter({counterNotif, type, id}));
         };
 
         socket.onclose = function () {
@@ -99,20 +110,140 @@ export function initializeSocket() {
     };
 }
 
-function storeXbeeData(xbeedata) {
+function storeSensorData(sensordata) {
     setTimeout(() => {
         {
-            console.log("xbeedata=" + JSON.stringify({ xbeeid: xbeedata.xbeeid , vbatt: xbeedata.vbatt, ptrans: xbeedata.ptrans, pcheck: xbeedata.pcheck}));
             var url = '/api/xbeemodules/'
             url += xbeedata.xbeeid + '/xbeedata/'
             const conf = {
                 method: "post",
-                body: JSON.stringify({ xbeeid: xbeedata.xbeeid , vbatt: xbeedata.vbatt, ptrans: xbeedata.ptrans, pcheck: xbeedata.pcheck, created_at: new Date()}),
+                body: JSON.stringify({
+                    xbeeid: xbeedata.xbeeid,
+                    vbatt: xbeedata.vbatt,
+                    ptrans: xbeedata.ptrans,
+                    pcheck: xbeedata.pcheck,
+                    created_at: new Date()
+                }),
                 headers: new Headers({"Content-Type": "application/json"})
             };
             fetch(url, conf).then(response => console.log(response));
         }
     }, 100)
+}
+
+
+function storeXbeeData(xbeedata) {
+    setTimeout(() => {
+        {
+            console.log("xbeedata=" + JSON.stringify({
+                xbeeid: xbeedata.xbeeid,
+                vbatt: xbeedata.vbatt,
+                ptrans: xbeedata.ptrans,
+                pcheck: xbeedata.pcheck
+            }));
+            var url = '/api/xbeemodules/'
+            url += xbeedata.xbeeid + '/xbeedata/'
+            const conf = {
+                method: "post",
+                body: JSON.stringify({
+                    xbeeid: xbeedata.xbeeid,
+                    vbatt: xbeedata.vbatt,
+                    ptrans: xbeedata.ptrans,
+                    pcheck: xbeedata.pcheck,
+                    created_at: new Date()
+                }),
+                headers: new Headers({"Content-Type": "application/json"})
+            };
+            fetch(url, conf).then(response => console.log(response));
+        }
+    }, 100)
+}
+
+function storeOrUpdateSensorModule(sensordata) {
+    console.log(sensordata);
+    var url = '/api/sensormodules/'
+    fetch(url)
+        .then(resp => {
+            if (resp.status !== 200) {
+                console.log("error on fetch " + url)
+            }
+            return resp.json();
+        }).then(function (data) {
+        if (data.lentgh == 0) {
+            // pas de data sensor module on insere
+            var url = '/api/sensormodules/'
+            const conf = {
+                method: "post",
+                body: JSON.stringify({
+                    sensor_uuid: sensordata.uid,
+                    name: sensordata.os,
+                    type: sensordata.os,
+                    description: sensordata.os,
+                    created_at: new Date(),
+                    updated_at: new Date(),
+                    techdata: sensordata.os
+                }),
+                headers: new Headers({"Content-Type": "application/json"})
+            };
+            fetch(url, conf).then(response => console.log(response));
+        } else {
+            // recherche si uuid existant
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].sensor_uuid == sensordata.uid) {
+                    // existe on update
+                    var url = '/api/sensormodules/' + data[i].id + '/'
+                    const conf = {
+                        method: "put",
+                        body: JSON.stringify({
+                            sensor_uuid: sensordata.uid,
+                            name: sensordata.os,
+                            type: sensordata.os,
+                            description: sensordata.os,
+                            created_at: new Date(),
+                            updated_at: new Date(),
+                            techdata: sensordata.os
+                        }),
+                        headers: new Headers({"Content-Type": "application/json"})
+                    };
+                    fetch(url, conf).then(response => console.log(response));
+                    break;
+                }
+                if (i = data.length -1){
+                    console.log("not found");
+                    var url = '/api/sensormodules/'
+                    const conf = {
+                        method: "post",
+                        body: JSON.stringify({
+                            sensor_uuid: sensordata.uid,
+                            name: sensordata.os,
+                            type: sensordata.os,
+                            description: sensordata.os,
+                            created_at: new Date(),
+                            updated_at: new Date(),
+                            techdata: sensordata.os
+                        }),
+                        headers: new Headers({"Content-Type": "application/json"})
+                    };
+                    fetch(url, conf).then(response => console.log(response));
+                }
+
+            }
+
+        }
+
+
+    }).catch(function (error) {
+        // If there is any error you will catch them here
+    });
+
+    // url += xbeedata.xbeeid + '/xbeedata/'
+    // const conf = {
+    //     method: "post",
+    //     body: JSON.stringify({ xbeeid: xbeedata.xbeeid , vbatt: xbeedata.vbatt, ptrans: xbeedata.ptrans, pcheck: xbeedata.pcheck, created_at: new Date()}),
+    //     headers: new Headers({"Content-Type": "application/json"})
+    // };
+    // fetch(url, conf).then(response => console.log(response));
+
 }
 
 function socketConnectionInit(socket) {

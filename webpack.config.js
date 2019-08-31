@@ -8,7 +8,7 @@ module.exports = {
     mode: 'development',
     context: __dirname,
     entry: [
-        'webpack-dev-server/client?http://192.168.99.100:3000',
+        'webpack-dev-server/client?http://192.168.1.70:3000',
         'webpack/hot/only-dev-server',
         './sensor/src/index.js'
     ],
@@ -16,7 +16,7 @@ module.exports = {
     output: {
         path: path.resolve('./assets/bundles/'),
         filename: '[name]-[hash].js',
-        publicPath: 'http://192.168.99.100:3000/assets/bundles/', // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
+        publicPath: 'http://192.168.1.70:3000/assets/bundles/', // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
     },
 
     plugins: [

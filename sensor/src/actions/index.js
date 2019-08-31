@@ -14,3 +14,7 @@ export const sensorSocket = value => ({
     type: "SOCKET_SEND_MESSAGE",
     payload: value
 });
+export const addNotifcounterCam = value => ({
+    type: "ADD_NOTIF_CAM",
+    payload: value
+});

@@ -23,6 +23,7 @@ import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 import Badge from "@material-ui/core/Badge/Badge";
 import MailIcon from '@material-ui/icons/Mail';
+import CameraRollIcon from '@material-ui/icons/CameraRoll';
 import {connect} from "react-redux";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
@@ -90,7 +91,8 @@ const styles = theme => ({
                 color: theme.palette.common.white,
             },
 
-            primary: {},
+            primary: {
+            },
             icon: {},
         },
     },
@@ -98,7 +100,7 @@ const styles = theme => ({
 
 
 const mapStateToProps = state => {
-    return { notifcounters: state.notifcounters,mailcounters: state.mailcounters };
+    return { notifcounters: state.notifcounters,mailcounters: state.mailcounters,notifCAMcounters: state.notifCAMcounters };
 };
 
 class ConnectedLayout2 extends React.Component {
@@ -127,21 +129,32 @@ class ConnectedLayout2 extends React.Component {
         const {open} = this.state;
         var mailcount = 0;
         var notifcount = 0;
+        var notifCAMcount = 0;
         var x = this.props.notifcounters.length;
         console.log("demo props.. :x=" + x);
+        var c = this.props.notifCAMcounters.length;
+        console.log("demo props.. :c=" + c);
         var z = this.props.mailcounters.length;
         console.log("demo props.. :z=" + z);
         if (x > 0) {
             var y = this.props.notifcounters[x - 1];
-            console.log("this.props.notifcounters[0] :type=" + y.type);
-            console.log("this.props.notifcounters[0] :counter=" + y.counterNotif);
+            console.log("this.props.notifcounters[] :type=" + y.type);
+            console.log("this.props.notifcounters[] :counter=" + y.counterNotif);
             if (y.type ==  'notif') {notifcount =  y.counterNotif}
         }
         if (z > 0) {
             var y = this.props.mailcounters[z - 1];
-            console.log("this.props.mailcounters[0] :type=" + y.type);
-            console.log("this.props.mailcounters[0] :counter=" + y.counterNotif);
+            console.log("this.props.mailcounters[] :type=" + y.type);
+            console.log("this.props.mailcounters[] :counter=" + y.counterNotif);
             if (y.type ==  'mail') {mailcount =  y.counterNotif}
+        }
+        if (c > 0) {
+            var y = this.props.notifCAMcounters[c - 1];
+            console.log("this.props.notifCAMcounters[] :type=" + y.type);
+            console.log("this.props.notifCAMcounters[] :counter=" + y.counterNotif);
+            if (y.type ==  'cam') {notifCAMcount =  y.counterNotif + 1;
+                // this.setState({notifCAMcounters[c]: notifCAMcount, type: 'cam'});
+            }
         }
         return (
             <div className={classes.root}>
@@ -162,7 +175,7 @@ class ConnectedLayout2 extends React.Component {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" color="inherit" noWrap>
-                            MikHome Dashboard lab
+                            DashBoard Lab
                         </Typography>
                         <div className={classes.sectionDesktop}>
                             <IconButton color="inherit">
@@ -176,7 +189,12 @@ class ConnectedLayout2 extends React.Component {
                                     <NotificationsIcon/>
                                 </Badge>
                             </IconButton>
-
+                            <IconButton color="inherit">
+                                <Badge className={classes.margin} badgeContent={notifCAMcount} color="secondary" component={Link} to="/sensor/picam"
+                                       onClick={this.handleBadge}>
+                                    <CameraRollIcon/>
+                                </Badge>
+                            </IconButton>
                         </div>
                     </Toolbar>
                 </AppBar>
@@ -228,6 +246,12 @@ class ConnectedLayout2 extends React.Component {
                                 </ListItemIcon>
                                 <ListItemText classes={{primary: classes.primary}} inset primary="Inbox"/>
                             </MenuItem>
+                            <MenuItem className={classes.menuItem} component={Link} to="/sensor/picam" selected={'/sensor/picam' === pathname}>
+                                <ListItemIcon className={classes.icon}>
+                                    <InboxIcon/>
+                                </ListItemIcon>
+                                <ListItemText classes={{primary: classes.primary}} inset primary="RPI Zero Picam"/>
+                            </MenuItem>
                         </MenuList>
                     </Paper>
                 </Drawer>
@@ -252,6 +276,7 @@ const Layout = connect(mapStateToProps)(ConnectedLayout2);
 Layout.propTypes = {
     notifcounters: PropTypes.array.isRequired,
     mailcounters: PropTypes.array.isRequired,
+    notifCAMcounters: PropTypes.array.isRequired,
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };

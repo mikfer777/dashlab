@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from sensor.models import Sensor, Product, Review, XbeeModule, XbeeData
+from sensor.models import Sensor, Product, Review, XbeeModule, XbeeData, SensorModule, SensorData
 from sensor.serializers import SensorSerializer, ProductSerializer, ReviewSerializer, XbeeSensorSerializer, \
-    XbeeDataSensorSerializer
+    XbeeDataSensorSerializer, SensorModuleSerializer, SensorDataSerializer
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework import generics
@@ -125,3 +125,37 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         review = self.kwargs['review_id']
         return Review.objects.filter(id=review)
+
+
+#
+class SensorModuleListCreate(generics.ListCreateAPIView):
+    queryset = SensorModule.objects.all()
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = SensorModuleSerializer
+
+# Return a single Sensor (even for anonymous users) and allows admin
+# to update and delete a single xbeeModule.
+#
+class SensorModuleDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SensorModule.objects.all()
+    serializer_class = SensorModuleSerializer
+    # permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAdminOrReadOnly, )
+    lookup_url_kwarg = 'sensormodule_id'
+
+
+#
+class SensorDataListCreate(generics.ListCreateAPIView):
+    queryset = SensorData.objects.all()
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = SensorDataSerializer
+
+# Return a single Sensor (even for anonymous users) and allows admin
+# to update and delete a single xbeeModule.
+#
+class SensorDataDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SensorData.objects.all()
+    serializer_class = SensorDataSerializer
+    # permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAdminOrReadOnly, )
+    lookup_url_kwarg = 'sensordata_id'

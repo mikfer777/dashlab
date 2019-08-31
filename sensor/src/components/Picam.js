@@ -6,9 +6,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import {addNotifcounter, sensorSocket} from "../actions/index";
 import DataProvider from './DataProvider';
-
-import Table2 from './Table2';
-import Table3 from './Table3';
+import TableRPIzero from './TableRPIzero';
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper";
 import {withStyles} from "@material-ui/core";
@@ -32,7 +30,7 @@ const styles = theme => ({
 
     paper: {
         height: 100,
-        width: 300,
+        width: 500,
         backgroundColor: 'transparent',
         boxShadow: 'none',
         padding: theme.spacing.unit * 2,
@@ -67,7 +65,11 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-class MyButton1 extends Component {
+const mapStateToProps = state => {
+    return { notifCAMcounters: state.notifCAMcounters };
+};
+
+class Picam extends Component {
 
 
     constructor() {
@@ -118,17 +120,30 @@ class MyButton1 extends Component {
 
     render() {
         const {classes} = this.props;
-
+        var c = this.props.notifCAMcounters.length;
+        var smid = 0;
+        var uuid = "";
+        var ep = "";
+        console.log("picam props.. :c=" + c);
+        if (c > 0) {
+            var y = this.props.notifCAMcounters[c - 1];
+            console.log("picam this.props.notifCAMcounters[] :type=" + y.type);
+            console.log("picam this.props.notifCAMcounters[] :counter=" + y.counterNotif);
+            smid = y.id;
+            uuid = y.uuid;
+            console.log("picam this.props.notifCAMcounters[] :id=" + smid);
+            ep = '/api/sensormodules/' + smid + '/sensordata/';
+        }
         return (
 
             <Grid container className={classes.rootgrid} spacing={2}>
                 <Grid item xs>
                     <Paper className={classes.paper}>
                         <Typography variant="h5" component="h3">
-                            XBEE module table
+                            RaspberryPI Zero PICAM motion control
                         </Typography>
                         <Typography component="p">
-                            Send messages to channel
+                            Send messages to channel {ep}
                         </Typography>
 
                         <FormControl className={classes.formControl}>
@@ -154,8 +169,8 @@ class MyButton1 extends Component {
 
                         {/*<DataProvider endpoint="/api/sensors/"*/}
                         {/*render={data => <Table3 data={data} />} />*/}
-                        <DataProvider endpoint="/api/sensors/"
-                                      render={data => <Table3 data={data}/>}/>
+                        <DataProvider endpoint={ep}
+                                      render={data => <TableRPIzero data={data}/>}/>
 
 
                     </Paper>
@@ -166,14 +181,15 @@ class MyButton1 extends Component {
     }
 }
 
-const MyButton1Form = connect(null, mapDispatchToProps)(MyButton1);
+const PicamForm = connect(mapStateToProps, mapDispatchToProps)(Picam);
 
-MyButton1.propTypes = {
+Picam.propTypes = {
     classes: PropTypes.object.isRequired,
     addNotifcounter: PropTypes.func.isRequired,
+    notifCAMcounters: PropTypes.array.isRequired,
     sensorSocket: PropTypes.func.isRequired,
 };
 
 
-export default withStyles(styles)(MyButton1Form);
+export default withStyles(styles)(PicamForm);
 

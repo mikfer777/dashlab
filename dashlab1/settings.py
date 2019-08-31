@@ -38,7 +38,7 @@ DOCKER = False
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.99.100']
+ALLOWED_HOSTS = ['192.168.1.70']
 
 # Application definition
 
@@ -97,6 +97,10 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAdminUser',
     ),
+    'TEST_REQUEST_RENDERER_CLASSES': (
+        'rest_framework.renderers.MultiPartRenderer',
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
 
 WSGI_APPLICATION = 'dashlab1.wsgi.application'
@@ -108,7 +112,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://192.168.99.100:6379']
+            "hosts": ['redis://192.168.1.70:6379']
         }
     },
 }
@@ -120,11 +124,12 @@ CHANNEL_LAYERS = {
 if DOCKER:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'HOST': 'db',
-            'PORT': 5432,
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'dashlab1',
+            'USER': 'dashman',
+            'PASSWORD': 'dashman',
+            'HOST': '192.168.1.70',
+            'PORT': '5432',
         }
     }
 else:
@@ -188,12 +193,12 @@ LOGGING = {
         'django': {
             'handlers': ['console'],
             'propogate': True,
-            'level': 'DEBUG',
+            'level': 'ERROR',
         },
         'django.channels': {
             'handlers': ['console'],
             'propogate': True,
-            'level': 'DEBUG',
+            'level': 'ERROR',
         },
     }
 }
