@@ -12,9 +12,17 @@ from sensor.models import SensorModule, SensorData
 
 import redis
 from channels.consumer import SyncConsumer
+import configparser, os
 
-REDIS_HOST = '192.168.1.70'
-REDIS_PORT = 6379
+config = configparser.ConfigParser()
+CONFIGFILE = 'config_sensorWorkerD.ini'
+
+
+# Just a small function to write the file
+def write_file(filename):
+    config.write(open(filename, 'w'))
+
+
 main_queue = Queue()  # inter comm process worker and TestWorker
 
 
@@ -81,7 +89,8 @@ class Sub(Process):
         threading.Timer(1, self.foo).start()
 
     def run(self):
-        self._db = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+        config.read(CONFIGFILE)
+        self._db = redis.StrictRedis(host=config.get('redis', 'host'), port=config.get('redis', 'port'))
         # do stuff
         print('sub:')
         pubsub = self._db.pubsub()
@@ -140,7 +149,19 @@ class SensorWorkerD(SyncConsumer):
 
     def __init__(self, scope):
         super().__init__(scope)
-        self._db = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+        redis_host = None
+        redis_port = None
+        if not os.path.exists(CONFIGFILE):
+            config['redis'] = {'host': '192.168.1.70', 'port': '6379'}
+            write_file(CONFIGFILE)
+            config.read(CONFIGFILE)
+            redis_host = config.get('redis', 'host')
+            redis_port = config.get('redis', 'port')
+        else:
+            config.read(CONFIGFILE)
+            redis_host = config.get('redis', 'host')
+            redis_port = config.get('redis', 'port')
+        self._db = redis.StrictRedis(host=redis_host, port=redis_port)
         print("init")
         p = Sub(main_queue)
         p.start()

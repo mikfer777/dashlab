@@ -10,6 +10,16 @@ import json
 import ast
 import redis
 from sensor.models import SensorModule, SensorData
+import configparser, os
+
+config = configparser.ConfigParser()
+CONFIGFILE = 'config_sensorSenderD.ini'
+
+
+# Just a small function to write the file
+def write_file(filename):
+    config.write(open(filename, 'w'))
+
 
 main_queue = Queue()  # inter comm process worker and TestWorker
 
@@ -38,8 +48,21 @@ class Command(BaseCommand):
 
     # A command must define handle()
     def handle(self, *args, **options):
+        redis_host = None
+        redis_port = None
+        sensor_uuid = None
+        if not os.path.exists(CONFIGFILE):
+            config['redis'] = {'host': '192.168.1.70', 'port': '6379'}
+            write_file(CONFIGFILE)
+            config.read(CONFIGFILE)
+            redis_host = config.get('redis', 'host')
+            redis_port = config.get('redis', 'port')
+        else:
+            config.read(CONFIGFILE)
+            redis_host = config.get('redis', 'host')
+            redis_port = config.get('redis', 'port')
         print("handle start")
-        myredis = redis.StrictRedis(host='192.168.1.70', port=6379)
+        myredis = redis.StrictRedis(host=redis_host, port=redis_port)
         pubsub = myredis.pubsub()
         pubsub.subscribe(self._channel_pub)
         for item in pubsub.listen():

@@ -7,7 +7,8 @@ import uuid, time
 import configparser, os
 
 config = configparser.ConfigParser()
-CONFIGFILE='config_sensorraspizero.ini'
+CONFIGFILE = 'config_sensorraspizero.ini'
+
 
 # Just a small function to write the file
 def write_file(filename):
@@ -27,7 +28,8 @@ class Worker(multiprocessing.Process):
         self.pkid = pkid
 
     def run(self):
-        self._db = redis.Redis(host='192.168.1.70', port=6379, db=0)
+        config.read(CONFIGFILE)
+        self._db = redis.StrictRedis(host=config.get('redis', 'host'), port=config.get('redis', 'port'))
         print('Worker starting...')
         print(sys.version)  # check python version
         objd = json.dumps({
