@@ -38,7 +38,7 @@ DOCKER = False
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.70']
+ALLOWED_HOSTS = ['192.168.99.100']
 
 # Application definition
 
@@ -112,7 +112,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://192.168.1.70:6379']
+            "hosts": ['redis://192.168.99.100:6379']
         }
     },
 }
@@ -128,7 +128,7 @@ if DOCKER:
             'NAME': 'dashlab1',
             'USER': 'dashman',
             'PASSWORD': 'dashman',
-            'HOST': '192.168.1.70',
+            'HOST': '192.168.99.100',
             'PORT': '5432',
         }
     }

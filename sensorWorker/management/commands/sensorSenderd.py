@@ -52,7 +52,7 @@ class Command(BaseCommand):
         redis_port = None
         sensor_uuid = None
         if not os.path.exists(CONFIGFILE):
-            config['redis'] = {'host': '192.168.1.70', 'port': '6379'}
+            config['redis'] = {'host': '192.168.99.100', 'port': '6379'}
             write_file(CONFIGFILE)
             config.read(CONFIGFILE)
             redis_host = config.get('redis', 'host')

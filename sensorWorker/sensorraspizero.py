@@ -51,7 +51,7 @@ if __name__ == '__main__':
     redis_port = None
     sensor_uuid = None
     if not os.path.exists(CONFIGFILE):
-        config['redis'] = {'host': '192.168.1.70', 'port': '6379'}
+        config['redis'] = {'host': '192.168.99.100', 'port': '6379'}
         suuid = str(uuid.uuid4())
         config['sensor'] = {'uuid': suuid, 'type': 'standard'}
         write_file(CONFIGFILE)

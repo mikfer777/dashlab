@@ -55,7 +55,7 @@ class Watch(Process):
 #         self._main_queue = main_queue
 #
 #     # def run(self):
-#     #     self._db = redis.Redis(host='192.168.1.70', port=6379, db=0)
+#     #     self._db = redis.Redis(host='192.168.99.100', port=6379, db=0)
 #     #     pubsub = self._db.pubsub()
 #     #     pubsub.subscribe([self._channel_reply])
 #     #     print('listen... ' + self._channel_reply)
@@ -152,7 +152,7 @@ class SensorWorkerD(SyncConsumer):
         redis_host = None
         redis_port = None
         if not os.path.exists(CONFIGFILE):
-            config['redis'] = {'host': '192.168.1.70', 'port': '6379'}
+            config['redis'] = {'host': '192.168.99.100', 'port': '6379'}
             write_file(CONFIGFILE)
             config.read(CONFIGFILE)
             redis_host = config.get('redis', 'host')

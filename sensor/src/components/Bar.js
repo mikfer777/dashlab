@@ -28,13 +28,18 @@ const styles = theme => ({
         padding: theme.spacing.unit * 3,
     },
     paper: {
-        height: 240,
-        width: 1000,
+        height: 10,
+        width: 900,
         backgroundColor: 'transparent',
         boxShadow: 'none',
-
-
+        padding: theme.spacing.unit * 2,
+        textAlign: 'left',
+        color: theme.palette.text.secondary,
     },
+    rootgrid: {
+        flexGrow: 1,
+    },
+
 });
 
 function getSteps() {
@@ -61,6 +66,10 @@ function getStepContent(step) {
                    href="https://material-ui.com/getting-started/installation/">material ui components</a><br/>
                 <a target="_blank"
                    href="https://material-table.com/#/docs/get-started">material-table component</a><br/>
+                <a target="_blank"
+                   href="https://github.com/STRML/react-grid-layout">dynamic grid layout component</a><br/>
+                <a target="_blank"
+                   href="https://medium.com/@sonalsonu51/dnd-using-react-grid-layout-b45caa2c5ac1">using grid layout component</a><br/>
 
             </div>);
         case 1:
@@ -107,7 +116,7 @@ class VerticalLinearStepper extends React.Component {
             <Grid container className={classes.rootgrid} spacing={16}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Stepper activeStep={activeStep} orientation="vertical">
+                        <Stepper className={classes.paper} activeStep={activeStep} orientation="vertical">
                             {steps.map((label, index) => {
                                 return (
                                     <Step key={label}>

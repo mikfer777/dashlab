@@ -25,6 +25,7 @@ urlpatterns = [
     path('sensor/demo', views.sensor, name='sensor'),
     path('sensor/xbeedrive', views.sensor, name='sensor'),
     path('sensor/picam', views.sensor, name='sensor'),
+    path('sensor/trello', views.sensor, name='sensor'),
     path('api/sensors/', views.SensorListCreate.as_view(), name='sensor-list'),
     path('api/sensors/<sensor_id>/', views.SensorDetail.as_view(), name='sensor-details'),
     path('api/products/', views.ProductList.as_view(), name='product-list'),

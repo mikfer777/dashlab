@@ -4,11 +4,12 @@ import Bar from "./Bar";
 import Foo from "./Foo";
 import MyButton1 from "./MyButton1";
 import Trello from "./Trello";
-import Picam from "./Picam";
+import Picam from "./PicamGrid";
 import WebSock from "./WebSock";
 import XbeeDriver from "./XbeeDriver";
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import "./trello.css"
 
 
 const theme = createMuiTheme({
@@ -44,6 +45,7 @@ const theme = createMuiTheme({
         ].join(','),
     },
 });
+
 
 const App = () => (
     <React.Fragment>

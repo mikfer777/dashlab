@@ -19,7 +19,7 @@ q = Queue()  # inter comm process worker and TestWorker
 
 
 def pub(i):
-    myredis = redis.StrictRedis(host='192.168.1.70', port=6379)
+    myredis = redis.StrictRedis(host='192.168.99.100', port=6379)
     for n in range(10):
         myredis.publish('channel', 'blah %d' % n)
         print('publish: %s' % n)
@@ -27,7 +27,7 @@ def pub(i):
 
 
 def sub(i, name):
-    myredis = redis.StrictRedis(host='192.168.1.70', port=6379)
+    myredis = redis.StrictRedis(host='192.168.99.100', port=6379)
     print('sub:', name)
     channel_layer = get_channel_layer()
     pubsub = myredis.pubsub()
@@ -172,7 +172,7 @@ class TestWorker(SyncConsumer):
     def __init__(self, scope):
         super().__init__(scope)
         print("init")
-        myredis = redis.StrictRedis(host='192.168.1.70', port=6379)
+        myredis = redis.StrictRedis(host='192.168.99.100', port=6379)
         jobs = []
         for i in range(2):
             p = multiprocessing.Process(target=sub, args=(i, 'reader' + str(i)))

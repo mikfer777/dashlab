@@ -29,7 +29,7 @@ class Worker(multiprocessing.Process):
         self.pkid = pkid
 
     def run(self):
-        self._db = redis.Redis(host='192.168.1.70', port=6379, db=0)
+        self._db = redis.Redis(host='192.168.99.100', port=6379, db=0)
         print('Worker starting...')
         print(sys.version)  # check python version
         objd = json.dumps({
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         redis_port = None
         sensor_uuid = None
         if not os.path.exists('config_sensor.ini'):
-            config['redis'] = {'host': '192.168.1.70', 'port': '6379'}
+            config['redis'] = {'host': '192.168.99.100', 'port': '6379'}
             suuid = str(uuid.uuid4())
             config['sensor'] = {'uuid': suuid, 'type': 'standard'}
             write_file()

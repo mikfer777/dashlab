@@ -164,17 +164,6 @@ class Picam extends Component {
 
                     </Paper>
                 </Grid>
-                <Grid item xs>
-                    <Paper className={classes.paper2}>
-
-                        {/*<DataProvider endpoint="/api/sensors/"*/}
-                        {/*render={data => <Table3 data={data} />} />*/}
-                        <DataProvider endpoint={ep}
-                                      render={data => <TableRPIzero data={data}/>}/>
-
-
-                    </Paper>
-                </Grid>
             </Grid>
 
         );
