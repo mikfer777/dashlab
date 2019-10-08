@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "./Layout";
 import Bar from "./Bar";
-import Foo from "./Foo";
+import MyCompo from "./MyCompo";
 import MyButton1 from "./MyButton1";
 import Trello from "./Trello";
 import Picam from "./PicamGrid";
@@ -55,7 +55,7 @@ const App = () => (
                     <Switch>
                         <Route exact path="/sensor" render={() => <div>Home</div>}/>
                         <Route path="/sensor/bar" component={Bar}/>
-                        <Route path="/sensor/foo" component={Foo}/>
+                        <Route path="/sensor/foo" component={MyCompo}/>
                         <Route path="/sensor/demo" component={MyButton1}/>
                         <Route path="/sensor/xbeedrive" component={XbeeDriver}/>
                         <Route path="/sensor/trello" component={Trello}/>

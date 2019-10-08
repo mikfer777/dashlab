@@ -190,7 +190,7 @@ class ConnectedLayout2 extends React.Component {
                                 </Badge>
                             </IconButton>
                             <IconButton color="inherit">
-                                <Badge className={classes.margin} badgeContent={notifCAMcount} color="secondary" component={Link} to="/sensor/picam"
+                                <Badge className={classes.margin} badgeContent={notifCAMcount} max={99999} color="secondary" component={Link} to="/sensor/picam"
                                        onClick={this.handleBadge}>
                                     <CameraRollIcon/>
                                 </Badge>

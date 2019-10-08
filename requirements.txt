@@ -7,3 +7,4 @@ serial==0.0.97
 django_webpack_loader==0.5.0
 django-rest-auth
 psycopg2
+psutil

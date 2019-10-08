@@ -5,13 +5,14 @@ import uuidv1 from "uuid";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import {addNotifcounter, sensorSocket} from "../actions/index";
-import DataProvider from './DataProvider';
-import TableRPIzero from './TableRPIzero';
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper";
 import {withStyles} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+
 
 const styles = theme => ({
     root: {
@@ -66,7 +67,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-    return { notifCAMcounters: state.notifCAMcounters };
+    return {notifCAMcounters: state.notifCAMcounters};
 };
 
 class Picam extends Component {
@@ -77,7 +78,9 @@ class Picam extends Component {
 
         this.state = {
             counterNotif: 0,
-            type: 'notif'
+            type: 'notif',
+            uuid: '',
+            sensor_command: 'stop'
 
         };
 
@@ -86,10 +89,10 @@ class Picam extends Component {
         this.handleSubmit2 = this.handleSubmit2.bind(this);
     }
 
-    handleChange(event) {
-        console.log("handleChange event=" + event);
-        this.setState({[event.target.id]: event.target.value});
-    }
+    handleChange = name => event => {
+        console.log("handleChange event ==" + event);
+        this.setState({[name]: event.target.value});
+    };
 
     handleSubmit(event) {
         console.log("handleSubmit hot-reloaded event =" + event);
@@ -105,15 +108,17 @@ class Picam extends Component {
     }
 
     handleSubmit2(event) {
-        console.log("handleSubmit2 send websocket message =" + event.data);
+        console.log(event);
         event.preventDefault();
         this.props.sensorSocket(JSON.stringify({
             "sensor": {
                 "type": "cmd",
-                "uid": "FFFF-1A1A1A"
+                "uid": this.state.uuid
             },
-            "payload": {created: new Date(),
-            "data" : "datacmd"},
+            "payload": {
+                created: new Date(),
+                "data": this.state.sensor_command
+            },
         }));
 
     }
@@ -131,6 +136,7 @@ class Picam extends Component {
             console.log("picam this.props.notifCAMcounters[] :counter=" + y.counterNotif);
             smid = y.id;
             uuid = y.uuid;
+            this.state.uuid = uuid;
             console.log("picam this.props.notifCAMcounters[] :id=" + smid);
             ep = '/api/sensormodules/' + smid + '/sensordata/';
         }
@@ -146,13 +152,31 @@ class Picam extends Component {
                             Send messages to channel {ep}
                         </Typography>
 
+                        {/*<FormControl className={classes.formControl}>*/}
+                            {/*<form onSubmit={this.handleSubmit}>*/}
+                                {/*<Button type="submit" variant="fab" color="primary" aria-label="Add">*/}
+                                    {/*<AddIcon/>*/}
+                                {/*</Button>*/}
+                            {/*</form>*/}
+                        {/*</FormControl>*/}
+
                         <FormControl className={classes.formControl}>
-                            <form onSubmit={this.handleSubmit}>
-                                <Button type="submit" variant="fab" color="primary" aria-label="Add">
-                                    <AddIcon/>
-                                </Button>
-                            </form>
+                            <InputLabel htmlFor="sensor-picam-co">Commande</InputLabel>
+                            <Select
+                                native
+                                value={this.state.sensor_command}
+                                onChange={this.handleChange('sensor_command')}
+                                inputProps={{
+                                    name: 'sensor_command',
+                                    id: '"sensor-picam-co',
+                                }}
+                            >
+                                <option value={'start'}>start</option>
+                                <option value={'stop'}>stop</option>
+                                <option value={'restart'}>restart</option>
+                            </Select>
                         </FormControl>
+
                         <FormControl className={classes.formControl}>
                             <form onSubmit={this.handleSubmit2}>
                                 <Button type="submit" variant="fab" color="primary" aria-label="Add">
@@ -160,7 +184,6 @@ class Picam extends Component {
                                 </Button>
                             </form>
                         </FormControl>
-
 
                     </Paper>
                 </Grid>

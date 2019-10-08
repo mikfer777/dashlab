@@ -33,7 +33,7 @@ WEBPACK_LOADER = {
 SECRET_KEY = '*oi4+z8eeqv*7v1+!)&9b8z^)dnpjvv_470m2%%r=4q&1*gl^s'
 
 # This can be used to toggle between your local testing db (db.sqlite3) and the PostgreSQL backend:
-DOCKER = False
+DOCKER = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
