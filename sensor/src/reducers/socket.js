@@ -89,8 +89,9 @@ export function initializeSocket() {
                 var counterNotif = 1;
                 var id = jsonobj['sensor']['pkid'];
                 var uuid = jsonobj['sensor']['uuid'];
+                var payload = jsonobj['payload'];
                 var type = 'cam';
-                dispatch(addNotifcounterCam({counterNotif, type, id, uuid}));
+                dispatch(addNotifcounterCam({counterNotif, type, id, uuid, payload}));
             } else if (jsonobj['sensor']['type'] == 'init') {
                 console.log("in init");
                 // storeOrUpdateSensorModule(jsonobj['sensor']);

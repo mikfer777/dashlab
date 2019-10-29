@@ -41,8 +41,10 @@ class Worker(multiprocessing.Process):
         self._db = redis.StrictRedis(host=config.get('redis', 'host'), port=config.get('redis', 'port'))
         print('Worker starting...')
         print(sys.version)  # check python version
+        c = 0
         while True:
             d = datetime.now()
+            c = c+10
             objd = json.dumps({
                 "sensor": {
                     "type": "data",
@@ -50,10 +52,11 @@ class Worker(multiprocessing.Process):
                     "uuid": self.uuid,
                     "pkid": str(self.pkid)},
                 "payload": {
-                    "datetime": d.isoformat(),
+                    # "datetime": int(d.timestamp()),
+                    "datetime": c,
                     "cpuload" : psutil.cpu_percent()}})
             self._db.publish(self._channel_pub, objd)
-            time.sleep(1)
+            time.sleep(0.5)
 
 
 if __name__ == '__main__':
