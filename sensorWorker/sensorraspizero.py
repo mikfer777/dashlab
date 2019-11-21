@@ -56,7 +56,7 @@ class Worker(multiprocessing.Process):
                     "datetime": c,
                     "cpuload" : psutil.cpu_percent()}})
             self._db.publish(self._channel_pub, objd)
-            time.sleep(0.5)
+            time.sleep(1)
 
 
 if __name__ == '__main__':
