@@ -5,14 +5,13 @@ import threading
 import time
 from multiprocessing import Process
 from multiprocessing import Queue
-
 from django.core.exceptions import ObjectDoesNotExist
-
-from sensor.models import SensorModule, SensorData
-
 import redis
 from channels.consumer import SyncConsumer
 import configparser, os
+import django
+django.setup()
+from sensor.models import SensorModule
 
 config = configparser.ConfigParser()
 CONFIGFILE = 'config_sensorWorkerD.ini'
@@ -83,6 +82,7 @@ class Sub(Process):
         self._db = None
         self._main_queue = main_queue
         # self.foo()
+
 
     def foo(self):
         print(datetime.datetime.now())
@@ -175,6 +175,7 @@ class SensorWorkerD(SyncConsumer):
         print(channel_reply)
         print(json_data['message'])
         self._db.publish(channel_reply, json_data['message'])
+        print("after publish")
         # objd = json.dumps({
         #     "sensor": {
         #         "type": "init",

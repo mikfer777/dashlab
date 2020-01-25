@@ -32,8 +32,6 @@ class Command(BaseCommand):
         super().__init__()
         print("init")
 
-    "sensor_publish_channel"
-
     def send_sensor_message(self, message):
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(

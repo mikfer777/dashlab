@@ -18,6 +18,8 @@ import DataProvider from './DataProvider';
 
 import Table2 from './Table2';
 import Table3 from './Table3';
+import Chart3 from "./Chart3";
+import Chart4 from "./Chart4";
 
 const styles = theme => ({
     root: {
@@ -74,29 +76,30 @@ class Trello extends React.Component {
             <ResponsiveGridLayout className="layout"
                                   breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                                   cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}>
-                <div key="1" className={classes.paper} data-grid={{w: 4, h: 2, x: 0, y: 0, static: false}}>
-                    <span>1</span>
-                </div>
-                <div key="2" className={classes.paper} data-grid={{w: 4, h: 2, x: 4, y: 0}}>
-                    <span><Bar/></span>
-                </div>
-                <div key="3" className={classes.paper} data-grid={{w: 4, h: 2, x: 0, y: 2}}>
-                    <span><Foo/></span>
-                </div>
-                <div key="4" className={classes.paper} data-grid={{w: 4, h: 2, x: 4, y: 4}}>
-                    <Paper className={classes.paper2}>
 
-                        {/*<DataProvider endpoint="/api/sensors/"*/}
-                        {/*render={data => <Table3 data={data} />} />*/}
-                        <DataProvider endpoint="/api/sensors/"
-                                      render={data => <Table3 data={data}/>}/>
+                <div key="1" className={classes.paper} data-grid={{w: 4, h: 5, x: 0, y: 0, static: true}}>
+                    <span><Chart3/></span>
+                </div>
+                <div key="2" className={classes.paper} data-grid={{w: 5, h: 3, x: 4, y: 0, static: true}}>
+                    <span><Chart4/></span>
+                </div>
+                {/*<div key="3" className={classes.paper} data-grid={{w: 4, h: 2, x: 0, y: 2}}>*/}
+                {/*<span><Foo/></span>*/}
+                {/*</div>*/}
+                {/*<div key="4" className={classes.paper} data-grid={{w: 4, h: 2, x: 4, y: 4}}>*/}
+                {/*<Paper className={classes.paper2}>*/}
+
+                {/*/!*<DataProvider endpoint="/api/sensors/"*!/*/}
+                {/*/!*render={data => <Table3 data={data} />} />*!/*/}
+                {/*<DataProvider endpoint="/api/sensors/"*/}
+                {/*render={data => <Table3 data={data}/>}/>*/}
 
 
-                    </Paper>
-                </div>
-                <div key="5" className={classes.paper2} data-grid={{w: 4, h: 2, x: 0, y: 6}}>
-                    <span><XbeeDriver/></span>
-                </div>
+                {/*</Paper>*/}
+                {/*</div>*/}
+                {/*<div key="5" className={classes.paper2} data-grid={{w: 4, h: 2, x: 0, y: 6}}>*/}
+                {/*<span><XbeeDriver/></span>*/}
+                {/*</div>*/}
 
 
             </ResponsiveGridLayout>

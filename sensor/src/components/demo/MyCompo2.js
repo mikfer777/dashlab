@@ -23,8 +23,6 @@ const styles = theme => ({
         width: 600,
         backgroundColor: 'transparent',
         boxShadow: 'none',
-
-
     },
     rootgrid: {
         flexGrow: 1,
@@ -32,7 +30,7 @@ const styles = theme => ({
 });
 
 
-class MyCompo extends Component {
+class MyCompo2 extends Component {
 
     constructor() {
         super()
@@ -85,7 +83,7 @@ class MyCompo extends Component {
                         <option value={10}>10s</option>
                         <option value={60}>1min</option>
                         <option value={600}>10min</option>
-                        <option value={3600}>2h</option>
+                        <option value={3600}>4h</option>
                     </Select>
                 </FormControl>
             </div>
@@ -93,15 +91,16 @@ class MyCompo extends Component {
     }
 }
 
-MyCompo.defaultProps = {
+
+MyCompo2.defaultProps = {
     name: 'toto',
     uuid: 'XXXX'
 };
 
 
-MyCompo.propTypes = {
+MyCompo2.propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string
 };
 
-export default withStyles(styles)(MyCompo);
+export default withStyles(styles)(MyCompo2);

@@ -12,6 +12,9 @@ import Typography from '@material-ui/core/Typography';
 
 import Foo from "./Foo";
 import XbeeDriver from "./XbeeDriver";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 
 const styles = theme => ({
     root: {
@@ -39,7 +42,20 @@ const styles = theme => ({
     rootgrid: {
         flexGrow: 1,
     },
-
+    card: {
+        minWidth: 275,
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
 });
 
 function getSteps() {
@@ -52,9 +68,11 @@ function getStepContent(step) {
             return (<div><a target="_blank"
                             href="https://www.valentinog.com/blog/tutorial-api-django-rest-react/">tutorial-api-django-rest-react</a><br/>
                 <a target="_blank"
-                href="https://medium.com/the-andela-way/creating-a-django-api-using-django-rest-framework-apiview-b365dca53c1d">another tutorial-api-django-rest-react</a><br/>
+                   href="https://medium.com/the-andela-way/creating-a-django-api-using-django-rest-framework-apiview-b365dca53c1d">another
+                    tutorial-api-django-rest-react</a><br/>
                 <a target="_blank"
-                   href="https://makina-corpus.com/blog/metier/2015/django-rest-framework-les-viewset-partie-2">Serializers ViewSet</a><br/>
+                   href="https://makina-corpus.com/blog/metier/2015/django-rest-framework-les-viewset-partie-2">Serializers
+                    ViewSet</a><br/>
 
 
                 <a target="_blank"
@@ -69,7 +87,10 @@ function getStepContent(step) {
                 <a target="_blank"
                    href="https://github.com/STRML/react-grid-layout">dynamic grid layout component</a><br/>
                 <a target="_blank"
-                   href="https://medium.com/@sonalsonu51/dnd-using-react-grid-layout-b45caa2c5ac1">using grid layout component</a><br/>
+                   href="https://medium.com/@sonalsonu51/dnd-using-react-grid-layout-b45caa2c5ac1">using grid layout
+                    component</a><br/>
+                <a target="_blank"
+                   href="http://recharts.org/en-US/examples/BarChartWithMultiXAxis">Recharts</a><br/>
 
             </div>);
         case 1:
@@ -111,6 +132,7 @@ class VerticalLinearStepper extends React.Component {
         const {classes} = this.props;
         const steps = getSteps();
         const {activeStep} = this.state;
+        const bull = <span className={classes.bullet}>•</span>;
 
         return (
             <Grid container className={classes.rootgrid} spacing={16}>
@@ -155,6 +177,31 @@ class VerticalLinearStepper extends React.Component {
                                 </Button>
                             </Paper>
                         )}
+                    </Paper>
+                </Grid>
+                <Grid>
+                    <Paper>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                    Word of the Day
+                                </Typography>
+                                <Typography variant="h5" component="h2">
+                                    be{bull}nev{bull}o{bull}lent
+                                </Typography>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    adjective
+                                </Typography>
+                                <Typography variant="body2" component="p">
+                                    well meaning and kindly.
+                                    <br/>
+                                    {'"a benevolent smile"'}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small">Learn More</Button>
+                            </CardActions>
+                        </Card>
                     </Paper>
                 </Grid>
             </Grid>

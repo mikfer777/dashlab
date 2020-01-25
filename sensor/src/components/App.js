@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "./Layout";
 import Bar from "./Bar";
-import MyCompo from "./MyCompo";
+import MyCompo from "./demo/MyCompo2";
 import MyButton1 from "./MyButton1";
 import Trello from "./Trello";
 import Picam from "./PicamGrid";
@@ -16,9 +16,9 @@ const theme = createMuiTheme({
 
     palette: {
         primary: {
-            light: '#4ce853',
-            main: '#847056',
-            dark: '#e8791d',
+            light: '#1f1de8',
+            main: '#2a5e84',
+            dark: '#54a4e8',
             contrastText: '#fff6f8',
         },
         secondary: {

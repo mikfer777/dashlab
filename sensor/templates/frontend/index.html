@@ -6,22 +6,27 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">-->
-  <title>LaboMik-dashlab1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">-->
+    <title>LaboMik-dashlab1</title>
+    <!--anti click droit pour afficher menu contextuel firefox , permet le zoom recharts dans un dynamic grid ayout -->
+    <script type="text/javascript">
+        //<!--
+        document.oncontextmenu = new Function("return false");
+        //-->
+    </script>
 </head>
 
 <body>
-  <section class="section">
+<section class="section">
     <div class="container">
-          <div id="app" ><!-- React --></div>
-          {% render_bundle 'main' %}
+        <div id="app"><!-- React --></div>
+        {% render_bundle 'main' %}
     </div>
 
-  </section>
+</section>
 </body>
-
 
 
 </html>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {Responsive, WidthProvider} from 'react-grid-layout';
-
 // import GridLayout from 'react-grid-layout';
 import PropTypes from "prop-types";
 import {withStyles} from '@material-ui/core/styles';
@@ -9,12 +8,13 @@ import DataProvider from './DataProvider';
 import TableSensorModule from './TableSensorModule';
 import Picam from './Picam';
 import {connect} from "react-redux";
-import {addNotifcounter, sensorSocket} from "../actions";
 import Chart1 from './Chart1'
 import Chart2 from './Chart2'
-import MyCompo from './MyCompo'
+import Chart3 from './Chart3'
+import Chart4 from './Chart4'
 import _ from "lodash";
 import SimpleSelect from "./work";
+import Table3 from "./MyButton1";
 
 const styles = theme => ({
     root: {
@@ -59,7 +59,7 @@ const styles = theme => ({
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 var harditems = [{i: '1', w: 3, h: 4, x: 0, y: 0, minW: 4, maxW: 4, minH: 4, maxH: 4, compo: 'picam'}];
-var compArray = {picam: Picam, chart1: Chart1, chart2: Chart2};
+var compArray = {picam: Picam, chart1: Chart1, chart2: Chart2, chart3: Chart3,chart4: Chart4};
 
 const mapStateToProps = state => {
     return {notifCAMcounters: state.notifCAMcounters};
@@ -156,7 +156,7 @@ class PicamGrid extends React.Component {
                 w: 4,
                 h: 4,
                 // minW: 4, maxW: 4, minH: 4, maxH: 4, static: false,
-                compo: 'chart2',
+                compo: 'chart4',
             }),
             // Increment the counter to ensure key is always unique.
             newCounter: this.state.newCounter + 1

@@ -33,12 +33,12 @@ WEBPACK_LOADER = {
 SECRET_KEY = '*oi4+z8eeqv*7v1+!)&9b8z^)dnpjvv_470m2%%r=4q&1*gl^s'
 
 # This can be used to toggle between your local testing db (db.sqlite3) and the PostgreSQL backend:
-DOCKER = True
+DOCKER = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.99.100']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -112,7 +112,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://192.168.99.100:6379']
+            "hosts": ['redis://127.0.0.1:6379']
         }
     },
 }
@@ -187,18 +187,18 @@ LOGGING = {
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'propagate': True,
         },
         'django': {
             'handlers': ['console'],
             'propogate': True,
-            'level': 'ERROR',
+            'level': 'DEBUG',
         },
         'django.channels': {
             'handlers': ['console'],
             'propogate': True,
-            'level': 'ERROR',
+            'level': 'DEBUG',
         },
     }
 }

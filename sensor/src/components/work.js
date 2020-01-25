@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getCountry} from './dataService';
+import {getCountry, getSensorModule} from './dataService';
 import {
     Select,
     MenuItem, withStyles,
@@ -26,12 +26,31 @@ class SimpleSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: getCountry(),
+            data: [],
             selected: 'IN'
 
         };
 
         // this.handleChange1 = this.handleChange1.bind(this)
+    }
+
+    componentDidMount() {
+        var url = '/api/sensormodules/'
+        fetch(url)
+            .then(resp => {
+                if (resp.status !== 200) {
+                    console.log("error on fetch " + url)
+                }
+                return resp.json();
+            }).then(data => {
+            let result = [];
+            console.log("fetch sensormodule" + data)
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i])
+                result.push({name: data[i].name, code: data[i].sensor_uuid})
+            }
+            this.setState({data: result});
+        })
     }
 
     handleChange = event => {
