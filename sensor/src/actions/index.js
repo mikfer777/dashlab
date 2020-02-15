@@ -18,3 +18,7 @@ export const addNotifcounterCam = value => ({
     type: "ADD_NOTIF_CAM",
     payload: value
 });
+export const addSelectedSensor = value => ({
+    type: "ADD_SELECTED_SENSOR",
+    payload: value
+});

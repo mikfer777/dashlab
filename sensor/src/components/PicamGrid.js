@@ -13,8 +13,14 @@ import Chart2 from './Chart2'
 import Chart3 from './Chart3'
 import Chart4 from './Chart4'
 import _ from "lodash";
-import SimpleSelect from "./work";
-import Table3 from "./MyButton1";
+import SensorSelector from "./SensorSelector";
+import Grid from "@material-ui/core/Grid/Grid";
+import {addSelectedSensor} from "../actions/index";
+import Typography from '@material-ui/core/Typography';
+import SimpleMap from "./demo/SimpleMap";
+import Select from '@material-ui/core/Select';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from '@material-ui/core/InputLabel';
 
 const styles = theme => ({
     root: {
@@ -32,10 +38,10 @@ const styles = theme => ({
     },
     paper: {
         background: 'transparent',
-        border: '2px solid #e2e2e2',
+
         borderRadius: 3,
-        height: 100,
-        width: 100
+        height: 200,
+        width: 1000
 
     },
     paper2: {
@@ -58,11 +64,23 @@ const styles = theme => ({
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-var harditems = [{i: '1', w: 3, h: 4, x: 0, y: 0, minW: 4, maxW: 4, minH: 4, maxH: 4, compo: 'picam'}];
-var compArray = {picam: Picam, chart1: Chart1, chart2: Chart2, chart3: Chart3,chart4: Chart4};
+// var harditems = [{i: '1', w: 3, h: 4, x: 0, y: 0, minW: 4, maxW: 4, minH: 4, maxH: 4, compo: 'picam'}, {
+//     i: '2',
+//     w: 3,
+//     h: 4,
+//     x: 4,
+//     y: 4,
+//     minW: 4,
+//     maxW: 4,
+//     minH: 4,
+//     maxH: 4,
+//     compo: 'chart4'
+// }];
+var harditems = [];
+var compArray = {picam: Picam, chart1: Chart1, chart2: Chart2, chart3: Chart3, chart4: Chart4, map1: SimpleMap};
 
 const mapStateToProps = state => {
-    return {notifCAMcounters: state.notifCAMcounters};
+    return {notifCAMcounters: state.notifCAMcounters, notifSelectedSensors: state.notifSelectedSensors};
 };
 
 
@@ -92,6 +110,7 @@ class PicamGrid extends React.Component {
         this.onAddSM = this.onAddSM.bind(this);
         this.onBreakpointChange = this.onBreakpointChange.bind(this);
         console.log("state layouts =" + JSON.stringify(this.state.layouts));
+        console.log(this.props.notifSelectedSensors[this.props.notifSelectedSensors.length - 1])
     }
 
     static get defaultProps() {
@@ -156,7 +175,7 @@ class PicamGrid extends React.Component {
                 w: 4,
                 h: 4,
                 // minW: 4, maxW: 4, minH: 4, maxH: 4, static: false,
-                compo: 'chart4',
+                compo: this.state.compo,
             }),
             // Increment the counter to ensure key is always unique.
             newCounter: this.state.newCounter + 1
@@ -201,6 +220,10 @@ class PicamGrid extends React.Component {
         this.setState({items: _.reject(this.state.items, {i: i})});
     }
 
+    handleChangeCompo = name => event => {
+        this.setState({[name]: event.target.value});
+    };
+
     render() {
         const {classes} = this.props;
         var c = this.props.notifCAMcounters.length;
@@ -224,10 +247,35 @@ class PicamGrid extends React.Component {
         // ];
         return (
             <div>
-                <button onClick={() => this.resetLayout()}>Reset Layout</button>
-                <button onClick={this.onAddItem}>Add Item</button>
-                <button onClick={this.onAddSM}>Show Sensor Modules</button>
-                <span><SimpleSelect/></span>
+                <Grid container className={classes.rootgrid} spacing={1}>
+                    <Grid item xs={1} sm={3}>
+                        <button onClick={() => this.resetLayout()}>Reset Layout</button>
+                        <button onClick={this.onAddItem}>Add Item</button>
+                        <button onClick={this.onAddSM}>Show Sensor Modules</button>
+
+                    </Grid>
+                    <Grid item xs={1} sm={3}>
+                        <SensorSelector/>
+                    </Grid>
+                    <Grid item xs={1} sm={3}>
+                        <Select
+                            native
+                            value={this.state.compo}
+                            onChange={this.handleChangeCompo('compo')}
+                            inputProps={{
+                                name: 'compo',
+                                id: 'ipl',
+                            }}
+                        >
+                            <option value={'chart1'}>Chart1</option>
+                            <option value={'chart2'}>Chart2</option>
+                            <option value={'chart3'}>Chart3</option>
+                            <option value={'chart4'}>Chart4</option>
+                            <option value={'picam'}>Agent picam</option>
+                            <option value={'map1'}>The Map</option>
+                        </Select>
+                    </Grid>
+                </Grid>
                 <ResponsiveGridLayout className="layout"
                                       rowHeight={40}
                                       breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
@@ -277,7 +325,6 @@ class PicamGrid extends React.Component {
                     {/*<Chart2/>*/}
                     {/*</span>*/}
                     {/*</div>*/}
-
                 </ResponsiveGridLayout>
             </div>
 
@@ -314,6 +361,7 @@ function saveToLS(gkit, key, value) {
 PicamGrid.propTypes = {
     classes: PropTypes.object.isRequired,
     notifCAMcounters: PropTypes.array.isRequired,
+    notifSelectedSensors: PropTypes.array.isRequired
 };
 
 const PicamGridForm = connect(mapStateToProps)(PicamGrid);

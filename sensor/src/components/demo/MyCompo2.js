@@ -5,6 +5,7 @@ import FormControl from "@material-ui/core/FormControl";
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import SimpleMap from './SimpleMap'
 
 const styles = theme => ({
     root: {
@@ -86,7 +87,9 @@ class MyCompo2 extends Component {
                         <option value={3600}>4h</option>
                     </Select>
                 </FormControl>
+            <SimpleMap/>
             </div>
+
         )
     }
 }

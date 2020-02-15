@@ -32,6 +32,7 @@ class Editable extends React.Component {
                     {field: 'ptrans', title: 'periode Trans'},
                     {field: 'pcheck', title: 'periode Check'},
                     {field: 'pcheck', title: 'periode Check'},
+
                 ]}
                 data={this.state.data}
                 editable={{
