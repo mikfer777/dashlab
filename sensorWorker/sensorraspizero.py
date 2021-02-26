@@ -56,6 +56,7 @@ class Worker(multiprocessing.Process):
                     "datetime": c,
                     "cpuload" : psutil.cpu_percent()}})
             self._db.publish(self._channel_pub, objd)
+            print('Worker publish...')
             time.sleep(1)
 
 
@@ -65,7 +66,7 @@ if __name__ == '__main__':
     sensor_uuid = None
     jobs = []
     if not os.path.exists(CONFIGFILE):
-        config['redis'] = {'host': '192.168.99.100', 'port': '6379'}
+        config['redis'] = {'host': '127.0.0.1', 'port': '6379'}
         suuid = str(uuid.uuid4())
         config['sensor'] = {'uuid': suuid, 'type': 'standard'}
         write_file(CONFIGFILE)
@@ -125,7 +126,7 @@ if __name__ == '__main__':
                         ack = True
                         break
             # do something with the message
-            time.sleep(0.001)  # be nice to the system :)
+            time.sleep(1)  # be nice to the system :)
         if ack:
             break
 

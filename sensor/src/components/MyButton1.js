@@ -108,7 +108,7 @@ class MyButton1 extends Component {
         this.props.sensorSocket(JSON.stringify({
             "sensor": {
                 "type": "cmd",
-                "uid": "FFFF-1A1A1A"
+                "uid": "c60bfc27-0f48-46f2-bab7-f19e6240a0b2"
             },
             "payload": {created: new Date(),
             "data" : "datacmd"},

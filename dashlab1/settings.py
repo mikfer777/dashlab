@@ -38,7 +38,12 @@ DOCKER = False
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+#wiki
+SITE_ID = 1
+WIKI_ACCOUNT_HANDLING = True
+WIKI_ACCOUNT_SIGNUP_ALLOWED = True
+
+ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.99.150']
 
 # Application definition
 
@@ -56,6 +61,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
+    #wiki
+    # 'django.contrib.sites.apps.SitesConfig',
+    # 'django.contrib.humanize.apps.HumanizeConfig',
+    # 'django_nyt.apps.DjangoNytConfig',
+    # 'mptt',
+    # 'sekizai',
+    # 'sorl.thumbnail',
+    # 'wiki.apps.WikiConfig',
+    # 'wiki.plugins.attachments.apps.AttachmentsConfig',
+    # 'wiki.plugins.notifications.apps.NotificationsConfig',
+    # 'wiki.plugins.images.apps.ImagesConfig',
+    # 'wiki.plugins.macros.apps.MacrosConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +98,16 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #wiki
+                #'django.contrib.auth.context_processors.auth',
+                # 'django.template.context_processors.debug',
+                # 'django.template.context_processors.i18n',
+                # 'django.template.context_processors.media',
+                # 'django.template.context_processors.request',
+                # 'django.template.context_processors.static',
+                # 'django.template.context_processors.tz',
+                # #'django.contrib.messages.context_processors.messages',
+                # "sekizai.context_processors.sekizai",
             ],
         },
     },
@@ -106,7 +133,7 @@ REST_FRAMEWORK = {
 WSGI_APPLICATION = 'dashlab1.wsgi.application'
 
 # Channels
-ASGI_APPLICATION = 'dashlab1.routing.application'
+ASGI_APPLICATION = 'dashlab1.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
@@ -169,7 +196,7 @@ LOGGING = {
     'handlers': {
 
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler'
         },
         #
@@ -187,15 +214,15 @@ LOGGING = {
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'django': {
             'handlers': ['console'],
             'propogate': True,
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
-        'django.channels': {
+        'channels_redis': {
             'handlers': ['console'],
             'propogate': True,
             'level': 'DEBUG',

@@ -65,7 +65,7 @@ export function initializeSocket() {
     return (dispatch) => {
         console.log("initializeSocket Websock");
         const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-        const socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/sensor/sock/");
+        const socket = new WebSocket(ws_scheme + '://' + window.location.host + "/sensor/sock/");
         socket.debug = true;
         socket.timeoutInterval = 1000;
         dispatch(socketConnectionInit(socket));
